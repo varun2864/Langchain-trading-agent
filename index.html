@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RAG Chatbot</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style> 
+  body {
+    background-color:#1e1e1e;
+    color: white;
+    font-family: sans-serif;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  #chat {
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    height: 500px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    background-color: #2a2a2a;
+  }
+  
+  .message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+  
+  .user-message {
+    background-color: #3a3a3a;
+    margin-left: auto;
+    text-align: right;
+    border: 1px solid #4a4a4a;
+  }
+  
+  .bot-message {
+    background-color: #1a4d7a;
+    margin-right: auto;
+    border: 1px solid #2a5d8a;
+  }
+  
+  .error-message {
+    background-color: #7a1a1a;
+    margin-right: auto;
+    border: 1px solid #8a2a2a;
+  }
+  
+  .typing-indicator {
+    background-color: #2a2a2a;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80px;
+    margin-bottom: 15px;
+  }
+  
+  .typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #666;
+    margin: 0 2px;
+    animation: typing 1.4s infinite;
+  }
+  
+  .typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-10px); }
+  }
+  
+  .timestamp {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 5px;
+  }
+  
+  .input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  #input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: white;
+    font-size: 14px;
+    font-family: sans-serif;
+    resize: vertical;
+    min-height: 45px;
+    max-height: 200px;
+  }
+  
+  button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    background-color: #0066cc;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #0052a3;
+  }
+  
+  button:disabled {
+    background-color: #444;
+    cursor: not-allowed;
+  }
+  
+  .upload-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    border: 1px solid #444;
+  }
+  
+  #fileUpload {
+    flex: 1;
+    color: white;
+  }
+  
+  #uploadBtn {
+    background-color: #28a745;
+  }
+  
+  #uploadBtn:hover:not(:disabled) {
+    background-color: #218838;
+  }
+  
+  #clearBtn {
+    background-color: #dc3545;
+  }
+  
+  #clearBtn:hover:not(:disabled) {
+    background-color: #c82333;
+  }
+  
+  #uploadStatus {
+    color: #4CAF50;
+    font-size: 0.9em;
+    margin-left: 10px;
+  }
+  
+  code {
+    background-color: #1a1a1a;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+  }
+  
+  pre {
+    background-color: #1a1a1a;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+  }
+  
+  pre code {
+    padding: 0;
+  }
+  </style>
+</head>
+
+<body>
+  <h2>RAG Chatbot v2 (working)</h2>
+  
+  <div class="upload-container">
+    <input type="file" id="fileUpload" accept=".pdf" />
+    <button id="uploadBtn">Upload PDF</button>
+    <button id="clearBtn">Clear All Docs</button>
+    <span id="uploadStatus"></span>
+  </div>
+  
+  <div id="chat"></div>
+
+  <div class="input-container">
+    <textarea id="input" placeholder="Type a message (Shift+Enter for new line)" rows="1"></textarea>
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
